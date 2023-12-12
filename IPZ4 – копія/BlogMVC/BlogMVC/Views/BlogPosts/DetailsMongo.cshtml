@@ -1,4 +1,4 @@
-﻿@model BlogPostViewModel
+﻿@model BlogPostViewModelMongo
 
 @{
     ViewData["Title"] = "Details";
@@ -24,7 +24,7 @@
                             <strong>Tags:</strong>
                             @foreach (var tag in Model.BlogPost.Tags)
                             {
-                                <a asp-action="Index" asp-route-tagName="@tag.Name">@tag.Name</a>
+                                <a asp-action="IndexMongo" asp-route-tagName="@tag.Name">@tag.Name</a>
                             }
                         </p>
                     }
@@ -34,9 +34,9 @@
             <div class="d-flex justify-content-center mt-3">
                 @if (Model.IsAuthor)
                 {
-                    <a asp-action="Edit" 
+                    <a asp-action="EditMongo" 
                         asp-route-id="@Model?.BlogPost.Id" class="btn btn-sm btn-primary w-25 mx-2">Edit</a>
-                    <a asp-action="Delete" 
+                    <a asp-action="DeleteMongo" 
                         asp-route-id="@Model?.BlogPost.Id" class="btn btn-sm btn-danger w-25 mx-2">Delete</a>
                 }
             </div>
@@ -51,7 +51,7 @@
                 </div>
             }
 
-            <form asp-controller="Comments" asp-action="Create" method="post" class="mt-4">
+            <form asp-controller="Comments" asp-action="CreateMongo" method="post" class="mt-4">
                 <div class="form-group mb-3">
                     <label asp-for="NewComment.Text"></label>
                     <textarea class="form-control" asp-for="NewComment.Text"></textarea>
@@ -59,6 +59,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary d-block mx-auto">Submit Comment</button>
             </form>
+
         </div>
     </div>
 </div>

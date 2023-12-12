@@ -10,9 +10,9 @@ namespace BlogMVC.BLL
 {
     public class DependencyResolver
     {
-        public static void Configure(IServiceCollection services, string connectionString)
+        public static void Configure(IServiceCollection services, string connectionString, string mongoConnection)
         {
-            BlogMVC.DAL.DependencyResolver.Configure(services, connectionString);
+            BlogMVC.DAL.DependencyResolver.Configure(services, connectionString, mongoConnection);
 
             services.AddScoped<IAuthorsService, AuthorsService>();
             services.AddScoped<IBlogPostService, BlogPostService>();

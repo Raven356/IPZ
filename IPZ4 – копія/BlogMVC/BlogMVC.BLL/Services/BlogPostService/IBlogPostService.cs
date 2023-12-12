@@ -7,6 +7,20 @@ namespace BlogMVC.BLL.Services.BlogPostService
     {
         Task<BlogPostDTO> CreateNew(CreateBlogPostDTO request);
 
+        BlogPostDTOMongo CreateNewMongo(CreateBlogPostDTOMongo request);
+
+        IEnumerable<BlogPostDTOMongo> GetAllMongo(BlogPostSearchParametersDTO request);
+
+        BlogPostDTOMongo GetByIdMongo(string? id);
+
+        void DeleteMongo(string request);
+
+        IEnumerable<BlogPostDTOMongo> GetByTagMongo(string tag);
+
+        IEnumerable<BlogPostDTOMongo> GetTagsMongo(IEnumerable<BlogPostDTOMongo> posts);
+
+        void EditMongo(EditBlogPostDTOMongo request, string categoryName);
+
         Task Delete(int id);
 
         Task Edit(EditBlogPostDTO request, string categoryName);

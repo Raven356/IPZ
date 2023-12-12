@@ -22,10 +22,37 @@ namespace BlogMVC.Controllers
             return View(author);
         }
 
+        //GET: Authors/DetailsMongo/5
+        public async Task<IActionResult> DetailsMongo(string? id)
+        {
+            var author = _authorsService.GetByIdMongo(id);
+
+            return View(author);
+        }
+
         // GET: Authors/Create
         public IActionResult Create()
         {
             return View();
+        }
+
+        public IActionResult CreateMongo()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateMongo(AuthorDTOMongo author)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = GetUserId();
+                author.UserId = userId;
+                author = _authorsService.CreateMongo(author);
+                return RedirectToAction("CreateMongo", "BlogPosts", new { authorId = author.Id });
+            }
+            return View(author);
         }
 
         // POST: Authors/Create
@@ -52,6 +79,17 @@ namespace BlogMVC.Controllers
                 return RedirectToAction("Create");
             }
             return RedirectToAction("Create", "BlogPosts", new { authorId = author.Id });
+        }
+
+        [Authorize]
+        public async Task<IActionResult> CheckForAuthorExistenceMongo()
+        {
+            var author = _authorsService.GetByUserMongo(GetUserId());
+            if (author == null)
+            {
+                return RedirectToAction("CreateMongo");
+            }
+            return RedirectToAction("CreateMongo", "BlogPosts", new { authorId = author.Id });
         }
     }
 }

@@ -31,5 +31,23 @@ namespace BlogMVC.Controllers
             }
             return RedirectToAction("Details", "BlogPosts");
         }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateMongo(CommentDTOMongo newComment)
+        {
+            if (ModelState.IsValid)
+            {
+                if (!string.IsNullOrEmpty(newComment.Text))
+                {
+                    newComment.UserId = GetUserId();
+                    _commentsService.AddNewMongo(newComment);
+                    return RedirectToAction("DetailsMongo", "BlogPosts", new { id = newComment.BlogPostId });
+                }
+
+            }
+            return RedirectToAction("DetailsMongo", "BlogPosts");
+        }
     }
 }

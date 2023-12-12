@@ -13,7 +13,11 @@ namespace BlogMVC
             CreateMap<LoginViewModel, LoginDTO>();
             CreateMap<EditBlogPostViewModel, EditBlogPostDTO>()
                 .ForMember(d => d.CategoryId, opt => opt.Ignore());
+            CreateMap<EditBlogPostViewModelMongo, EditBlogPostDTOMongo>()
+                .ForMember(d => d.CategoryId, opt => opt.Ignore());
             CreateMap<BlogPostDTO, EditBlogPostViewModel>()
+                .ForMember(d => d.CategoryName, opt => opt.MapFrom(s => s.Category.Name));
+            CreateMap<BlogPostDTOMongo, EditBlogPostViewModelMongo>()
                 .ForMember(d => d.CategoryName, opt => opt.MapFrom(s => s.Category.Name));
         }
     }

@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNetCore.Identity;
+
+@model IEnumerable<BlogPostDTOMongo>
+
+@{
+    ViewData["Title"] = "My fancy Blog MVC";
+}
+
+<div class="container">
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-8">
+            <form method="get" action="">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search by Title" name="searchTitle">
+                    <input type="text" class="form-control" placeholder="Search by Category" name="searchCategory">
+                    <input type="text" class="form-control" placeholder="Search by Author" name="searchAuthor">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="text-center mb-4">My fancy Blog MVC</h1>
+
+            @foreach (var item in Model)
+            {
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a asp-action="DetailsMongo" asp-route-id="@item.Id">
+                                @Html.DisplayFor(modelItem => item.Title)</a>
+                        </h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Text)</p>
+                        <p class="card-text">
+                            <strong>Date:</strong> @Html.DisplayFor(modelItem => item.Date)
+                        </p>
+                        <p class="card-text">
+                            <strong>Author:</strong>
+                            <a asp-controller="Authors" asp-action="DetailsMongo" asp-route-id="@item.AuthorId">
+                                @Html.DisplayFor(modelItem => item.Author.NickName)
+                            </a>
+                        </p>
+                        <p class="card-text">
+                            <strong>Category:</strong>
+                            <a asp-controller="Categories" asp-action="DetailsMongo" asp-route-id="@item.CategoryId">
+                                @Html.DisplayFor(modelItem => item.Category.Name)
+                            </a>
+                        </p>
+                        @if (item.Tags.Count() > 0)
+                        {
+                            <p class="card-text">
+                                <strong>Tags:</strong>
+                                @foreach (var tag in item.Tags)
+                                {
+                                    <a asp-action="IndexMongo" asp-route-tagName="@tag.Name">@tag.Name</a>
+                                }
+                            </p>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

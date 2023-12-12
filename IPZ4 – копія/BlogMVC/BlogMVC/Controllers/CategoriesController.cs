@@ -23,5 +23,16 @@ namespace BlogMVC.Controllers
 
             return View(category);
         }
+
+        public async Task<IActionResult> DetailsMongo(string? id)
+        {
+            var category = _categoriesService.GetByIdMongo(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            return View(category);
+        }
     }
 }

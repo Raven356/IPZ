@@ -19,6 +19,7 @@ services:
       - DB_HOST=mssql
       - DB_NAME=BlogMVC.Data
       - DB_SA_PASSWORD=Password123!
+      - DB_MONGO=mongodb
     networks:
       - test
 
@@ -45,5 +46,13 @@ services:
     environment:
       - SA_PASSWORD=Password123!  # Set a password for the 'sa' user
       - ACCEPT_EULA=Y
+    networks:
+      - test
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - 27017:27017
     networks:
       - test

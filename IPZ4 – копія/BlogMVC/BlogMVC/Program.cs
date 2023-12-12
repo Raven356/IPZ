@@ -3,18 +3,30 @@ using Microsoft.AspNetCore.Identity;
 using BlogMVC.BLL;
 using BlogMVC;
 using BlogMVC.DAL.Context;
+using MongoDB.Driver;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
 var dbName = Environment.GetEnvironmentVariable("DB_NAME");
 var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
+var dbMongo = Environment.GetEnvironmentVariable("DB_MONGO");
 //var connectionString = builder.Configuration.GetConnectionString("BlogMVCContext")
 //    ?? throw new InvalidOperationException("Connection string 'BlogMVCContext' not found.");
 var connectionString = $"Data source={dbHost};Initial Catalog={dbName};User ID=sa;Password={dbPassword}";
 //var connectionString = $"Data source=host.docker.internal;Database={dbName};Trusted_Connection=True;MultipleActiveResultSets=true;User ID=sa;Password={dbPassword}";
-DependencyResolver.Configure(builder.Services, connectionString);
+var mongoConnection = $"{dbMongo}://{dbMongo}:27017";
+DependencyResolver.Configure(builder.Services, connectionString, mongoConnection);
 
 builder.Services.AddAutoMapper(typeof(WebMappingProfile).Assembly);
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API Name", Version = "v1" });
+});
+
+// Inside the Configure method
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -40,6 +52,12 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 var app = builder.Build();
+
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API Name V1");
+});
 
 using (var scope = app.Services.CreateScope())
 {

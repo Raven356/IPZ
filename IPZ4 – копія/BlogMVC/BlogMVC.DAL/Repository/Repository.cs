@@ -22,7 +22,7 @@ namespace BlogMVC.DAL.Repository
             return created.Entity;
         }
 
-        public async Task Delete(int? id)
+        public async Task Delete(object? id)
         {
             var entity = (await _dbSet.FindAsync(id))!;
             if (_context.Entry(entity).State == EntityState.Detached)

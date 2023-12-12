@@ -5,5 +5,7 @@ namespace BlogMVC.BLL.Services.CategoriesService
     public interface ICategoriesService
     {
         Task<CategoryDTO> GetById(int? id);
+
+        CategoryDTOMongo GetByIdMongo(string? id);
     }
 }

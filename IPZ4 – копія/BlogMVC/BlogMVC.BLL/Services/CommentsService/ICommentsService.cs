@@ -5,5 +5,7 @@ namespace BlogMVC.BLL.Services.ControllersService
     public interface ICommentsService
     {
         public Task AddNew(CommentDTO newComment);
+
+        void AddNewMongo(CommentDTOMongo newComment);
     }
 }

@@ -6,7 +6,7 @@
 
         Task Update(TEntity entity);
 
-        Task Delete(int? id);
+        Task Delete(object? id);
 
         IQueryable<TEntity> GetAll();
 

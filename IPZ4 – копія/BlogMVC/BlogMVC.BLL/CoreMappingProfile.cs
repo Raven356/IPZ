@@ -21,9 +21,25 @@ namespace BlogMVC.BLL
 
             CreateMap<Author, AuthorDTO>().ReverseMap();
             CreateMap<BlogPost, BlogPostDTO>().ReverseMap();
+
             CreateMap<Category, CategoryDTO>().ReverseMap();
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<BlogPost, CreateBlogPostDTO>().ReverseMap();
+
+            CreateMap<AuthorDTOMongo, AuthorMongo>().ReverseMap();
+            CreateMap<BlogPostMongo, CreateBlogPostDTOMongo>().ReverseMap();
+            CreateMap<CategoryMongo, CategoryDTOMongo>().ReverseMap();
+            CreateMap<TagsMongo, TagsDTOMongo>();
+            CreateMap<CommentDTOMongo, CommentMongo>().ReverseMap();
+            CreateMap<BlogPostMongo, BlogPostDTOMongo>().ReverseMap();
+            CreateMap<EditBlogPostDTOMongo, BlogPostMongo>()
+                .ForMember(dst => dst.AuthorId, opt => opt.MapFrom(s => s.AuthorId))
+                .ForMember(dst => dst.Id, opt => opt.MapFrom(s => s.Id))
+                .ForMember(dst => dst.Text, opt => opt.MapFrom(s => s.Text))
+                .ForMember(dst => dst.CategoryId, opt => opt.MapFrom(s => s.CategoryId))
+                .ForMember(dst => dst.Date, opt => opt.MapFrom(s => s.Date))
+                .ForMember(dst => dst.Title, opt => opt.MapFrom(s => s.Title));
+            
 
             CreateMap<Tags, TagsDTO>();
             CreateMap<CommentDTO, Comment>()
