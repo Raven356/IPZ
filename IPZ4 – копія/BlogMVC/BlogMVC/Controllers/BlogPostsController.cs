@@ -87,6 +87,11 @@ namespace BlogMVC.Controllers
 
             var userId = GetUserId();
 
+            foreach (var c in blogPost.CommentList)
+            {
+                c.UserId = GetUserId();
+            }
+
             var blogPostViewModel = new BlogPostViewModelMongo
             {
                 BlogPost = blogPost,

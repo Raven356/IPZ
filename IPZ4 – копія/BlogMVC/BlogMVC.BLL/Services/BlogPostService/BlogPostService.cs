@@ -110,7 +110,7 @@ namespace BlogMVC.BLL.Services.BlogPostService
             if (!string.IsNullOrEmpty(request.SearchCategory))
             {
                 var category = _categoryMongoRepository.GetAll();
-                blogs = blogs.Where(b => category.Where(c => c.Name.Contains(request.SearchCategory)).Select(c => c.Id).Contains(b.Id));
+                blogs = blogs.Where(b => category.Where(c => c.Name.Contains(request.SearchCategory)).Select(c => c.Id).Contains(b.CategoryId));
             }
 
             if (!string.IsNullOrEmpty(request.SearchAuthor))
@@ -192,7 +192,13 @@ namespace BlogMVC.BLL.Services.BlogPostService
 
         public IEnumerable<BlogPostDTOMongo> GetByTagMongo(string tag)
         {
-            return _tagsService.GetByTagMongo(tag);
+            var result = _tagsService.GetByTagMongo(tag);
+            foreach (var x in result)
+            {
+                x.Author = _mapper.Map<AuthorDTOMongo>(_authorsRepository.GetById(x.AuthorId));
+                x.Category = _mapper.Map<CategoryDTOMongo>(_categoryMongoRepository.GetById(x.CategoryId));
+            }
+            return result;
         }
 
         public async Task<IEnumerable<BlogPostDTO>> 
