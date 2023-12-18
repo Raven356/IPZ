@@ -1,0 +1,53 @@
+﻿@model AuthorDTO
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="text-center">Register as author</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <img id="previewImage" alt="Uploaded Image" class="img-thumbnail" />
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" id="imageInput" type="file" class="form-control" accept=".gif, .jpg, .jpeg, .png" />
+            </div>
+            <div class="form-group">
+                <label asp-for="NickName" class="control-label"></label>
+                <input asp-for="NickName" class="form-control" />
+                <span asp-validation-for="NickName" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex justify-content-center mt-2">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        console.log("t");
+        document.getElementById('imageInput').addEventListener('change', function () {
+            displayImage(this);
+        });
+        function displayImage(input) {
+            var preview = document.getElementById('previewImage');
+            var file = input.files[0];
+            var reader = new FileReader();
+            console.log("test");
+            reader.onloadend = function () {
+                preview.src = reader.result;
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
+            }
+        }
+    </script>
+}

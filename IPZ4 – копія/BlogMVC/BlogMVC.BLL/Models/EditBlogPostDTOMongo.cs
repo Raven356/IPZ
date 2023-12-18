@@ -18,5 +18,7 @@ namespace BlogMVC.BLL.Models
         public string AuthorId { get; set; }
 
         public string? CategoryId { get; set; }
+
+        public byte[]? Image { get; set; }
     }
 }

@@ -11,6 +11,10 @@
             <div class="card">
                 <div class="card-body">
                     <p class="card-text">@Model.BlogPost.Text</p>
+                    @if (Model.BlogPost.Image != null && Model.BlogPost.Image.Length > 0)
+                    {
+                        <img src="@Url.Action("GetImage", "BlogPosts", new { imageBytes = Model.BlogPost.Image })" alt="Uploaded Image" class="img-thumbnail" />
+                    }
                     <div class="d-flex justify-content-between">
                         <small class="text-muted">Date: @Model.BlogPost.Date</small>
                         <small class="text-muted">@Model.BlogPost.Category.Name</small>

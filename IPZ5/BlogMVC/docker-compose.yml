@@ -1,0 +1,54 @@
+version: '3.4'
+
+networks:
+  test:
+
+services:
+  blogmvc:
+    image: ${DOCKER_REGISTRY-}blogmvc
+    ports:
+      - 8037:80
+    depends_on:
+      - mssql
+      - blogmvc_bll
+      - blogmvc_dal
+    build:
+      context: .
+      dockerfile: BlogMVC/Dockerfile
+    environment:
+      - DB_HOST=mssql
+      - DB_NAME=BlogMVC.Data
+      - DB_SA_PASSWORD=Password123!
+    networks:
+      - test
+    volumes:
+      - blogmvc_data:/app/data
+
+  blogmvc_bll:
+    image: ${DOCKER_REGISTRY-}blogmvc_bll
+    build:
+      context: .
+      dockerfile: BlogMVC.BLL/Dockerfile
+    networks:
+      - test
+
+  blogmvc_dal:
+    image: ${DOCKER_REGISTRY-}blogmvc_dal
+    build:
+      context: .
+      dockerfile: BlogMVC.DAL/Dockerfile
+    networks:
+      - test
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 8002:1433
+    environment:
+      - SA_PASSWORD=Password123!  # Set a password for the 'sa' user
+      - ACCEPT_EULA=Y
+    networks:
+      - test
+      
+volumes:
+  blogmvc_data:

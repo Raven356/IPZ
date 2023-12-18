@@ -134,6 +134,15 @@ namespace BlogMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (blogPost.ImageFile != null && blogPost.ImageFile.Length > 0)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await blogPost.ImageFile.CopyToAsync(memoryStream);
+                        // Convert the image to a byte array
+                        blogPost.Image = memoryStream.ToArray();
+                    }
+                }
                 _blogPostService.CreateNewMongo(blogPost);
                 return RedirectToAction("IndexMongo", "BlogPosts");
             }
@@ -188,6 +197,15 @@ namespace BlogMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (blogPost.ImageFile != null && blogPost.ImageFile.Length > 0)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await blogPost.ImageFile.CopyToAsync(memoryStream);
+                        // Convert the image to a byte array
+                        blogPost.Image = memoryStream.ToArray();
+                    }
+                }
                 var editBlogPostDTO = _mapper.Map<EditBlogPostDTOMongo>(blogPost);
 
                 _blogPostService.EditMongo(editBlogPostDTO, blogPost.CategoryName);
@@ -246,6 +264,21 @@ namespace BlogMVC.Controllers
                 stringBuilder.Append(tag.Name + " ");
             }
             editBlogPost.Tags = stringBuilder.ToString();
+        }
+
+        public IActionResult GetImage(byte[] imageBytes)
+        {
+
+            if (imageBytes != null && imageBytes.Length > 0)
+            {
+                return File(imageBytes, "image/jpeg"); // Adjust the content type based on your image format
+            }
+            return BadRequest("No image found!");
+            //else
+            //{
+            //    // Return a default image or an empty image placeholder
+            //    //return File("~/path/to/default-image.jpg", "image/jpeg"); // Replace with the path to your default image
+            //}
         }
     }
 }

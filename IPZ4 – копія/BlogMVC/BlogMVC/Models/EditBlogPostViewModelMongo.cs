@@ -20,5 +20,9 @@ namespace BlogMVC.Models
         public DateTime Date { get; set; }
 
         public string AuthorId { get; set; }
+
+        public IFormFile? ImageFile { get; set; }
+
+        public byte[]? Image { get; set; }
     }
 }

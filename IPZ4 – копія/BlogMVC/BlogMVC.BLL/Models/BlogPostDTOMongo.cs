@@ -22,6 +22,8 @@ namespace BlogMVC.Models
 
         public CategoryDTOMongo? Category { get; set; }
 
+        public byte[] Image { get; set; }
+
         public IEnumerable<TagsDTOMongo> Tags { get; set; } = Enumerable.Empty<TagsDTOMongo>();
 
         public IEnumerable<CommentDTOMongo> CommentList { get; set; } = null!;

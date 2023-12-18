@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace BlogMVC.BLL.Models
@@ -20,5 +21,9 @@ namespace BlogMVC.BLL.Models
         public DateTime Date { get; set; }
 
         public string AuthorId { get; set; }
+
+        public IFormFile? ImageFile { get; set; }
+
+        public byte[]? Image { get; set; }
     }
 }

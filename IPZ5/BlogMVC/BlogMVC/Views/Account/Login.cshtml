@@ -1,0 +1,18 @@
+﻿@page
+@model BlogMVC.Models.LoginViewModel
+@{
+}
+
+<form asp-controller="Account" asp-action="Login" method="post" class="mx-auto w-50">
+    <div class="form-group">
+        <label for="Login">Email</label>
+        <input type="email" class="form-control" id="Login" name="Login" required>
+    </div>
+    <div class="form-group">
+        <label for="Password">Password</label>
+        <input type="password" class="form-control" id="Password" name="Password" required>
+    </div>
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-primary mt-2">Login</button>
+    </div>
+</form>

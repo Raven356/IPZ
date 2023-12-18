@@ -27,5 +27,8 @@ namespace BlogMVC.DAL.Models
         [BsonElement("authorid")]
         public string AuthorId { get; set; }
 
+        [BsonElement("image")]
+        public byte[] Image { get; set; }
+
     }
 }

@@ -1,0 +1,72 @@
+﻿@model BlogMVC.BLL.Models.CreateBlogPostDTO
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="text-center">Create new blog post</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <img id="previewImage" alt="Uploaded Image" class="img-thumbnail" />
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" id="imageInput" type="file" class="form-control" accept=".gif, .jpg, .jpeg, .png" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Text" class="control-label"></label>
+                <input asp-for="Text" class="form-control" />
+                <span asp-validation-for="Text" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryName" class="control-label"></label>
+                <input asp-for="CategoryName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Tags" class="control-label"></label>
+                <input asp-for="Tags" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="Date" class="form-control" value="@DateTime.Now" />
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="AuthorId" class="form-control" value="@Model.AuthorId" />
+            </div>
+            <div class="form-group d-flex justify-content-center">
+                <input type="submit" value="Create" class="btn btn-primary mt-2" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        console.log("t");
+        document.getElementById('imageInput').addEventListener('change', function () {
+            displayImage(this);
+        });
+        function displayImage(input) {
+            var preview = document.getElementById('previewImage');
+            var file = input.files[0];
+            var reader = new FileReader();
+            console.log("test");
+            reader.onloadend = function () {
+                preview.src = reader.result;
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
+            }
+        }
+    </script>
+}
