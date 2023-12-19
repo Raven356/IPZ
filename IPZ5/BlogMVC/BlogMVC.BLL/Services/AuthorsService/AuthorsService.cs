@@ -24,7 +24,7 @@ namespace BlogMVC.BLL.Services.AuthorsService
             var author = _mapper.Map<Author>(request);
             if (request.Image != null)
             {
-                var imagePath = Path.Combine("/app/data", request.Image.FileName);
+                var imagePath = Path.Combine("/app/data", Guid.NewGuid() + request.Image.FileName);
 
                 using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
