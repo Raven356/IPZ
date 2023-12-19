@@ -13,7 +13,7 @@ namespace BlogMVC.BLL.Models
 
         public string? Tags { get; set; }
 
-        public IFormFile Image { get; set; } = null!;
+        public IFormFile? Image { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }

@@ -36,11 +36,14 @@ namespace BlogMVC.BLL.Services.BlogPostService
         public async Task<BlogPostDTO> CreateNew(CreateBlogPostDTO request)
         {
             var newBlog = _mapper.Map<BlogPost>(request);
-            using (var memoryStream = new MemoryStream())
+            if (request.Image != null)
             {
-                await request.Image.CopyToAsync(memoryStream);
-                // Convert the image to a byte array
-                newBlog.Image = memoryStream.ToArray();
+                using (var memoryStream = new MemoryStream())
+                {
+                    await request.Image.CopyToAsync(memoryStream);
+                    // Convert the image to a byte array
+                    newBlog.Image = memoryStream.ToArray();
+                }
             }
             newBlog.CategoryId = await GetCategoryId(request.CategoryName);
             var createdBlog = _mapper.Map<BlogPostDTO>(await _blogPostRepository.Add(newBlog));
@@ -60,11 +63,14 @@ namespace BlogMVC.BLL.Services.BlogPostService
         {
             request.CategoryId = await GetCategoryId(categoryName);
             var blog = _mapper.Map<BlogPost>(request);
-            using (var memoryStream = new MemoryStream())
+            if (request.Image != null)
             {
-                await request.Image.CopyToAsync(memoryStream);
-                // Convert the image to a byte array
-                blog.Image = memoryStream.ToArray();
+                using (var memoryStream = new MemoryStream())
+                {
+                    await request.Image.CopyToAsync(memoryStream);
+                    // Convert the image to a byte array
+                    blog.Image = memoryStream.ToArray();
+                }
             }
             await _tagsService.Update(request.Tags == null ? null : request.Tags
                    .Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList()

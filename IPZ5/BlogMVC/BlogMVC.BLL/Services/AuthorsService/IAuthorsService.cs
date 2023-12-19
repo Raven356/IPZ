@@ -9,5 +9,7 @@ namespace BlogMVC.BLL.Services.AuthorsService
         Task<AuthorDTO> GetById(int? id);
 
         Task<AuthorDTO> GetByUser(string userId);
+
+        Task UpdateImage(AuthorDTO request);
     }
 }

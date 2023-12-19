@@ -15,6 +15,7 @@
                 <label asp-for="Image" class="control-label"></label>
                 <input asp-for="Image" id="imageInput" type="file" class="form-control" accept=".gif, .jpg, .jpeg, .png" />
             </div>
+            <button type="button" id="clearImageButton" class="btn btn-secondary">Clear Image</button>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -49,6 +50,13 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
+        document.getElementById('clearImageButton').addEventListener('click', function () {
+            // Clear the value of the file input
+            document.getElementById('imageInput').value = '';
+
+            // Optionally, you can clear the preview image as well
+            document.getElementById('previewImage').src = ''; // Set the source to an empty string
+        });
         console.log("t");
         document.getElementById('imageInput').addEventListener('change', function () {
             displayImage(this);

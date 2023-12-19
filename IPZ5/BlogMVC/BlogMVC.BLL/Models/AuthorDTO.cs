@@ -11,7 +11,7 @@ namespace BlogMVC.Models
 
         public string? UserId { get; set; }
 
-        public IFormFile Image { get; set; } = null!;
+        public IFormFile? Image { get; set; }
 
         public string? ImagePath { get; set; }
     }

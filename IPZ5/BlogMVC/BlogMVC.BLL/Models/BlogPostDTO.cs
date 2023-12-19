@@ -11,7 +11,7 @@ namespace BlogMVC.Models
 
         public string Text { get; set; } = null!;
 
-        public byte[] Image { get; set; } = null!;
+        public byte[]? Image { get; set; }
 
         public int CategoryId { get; set; }
 

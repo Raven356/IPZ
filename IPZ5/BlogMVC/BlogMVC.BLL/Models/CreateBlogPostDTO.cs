@@ -12,7 +12,7 @@ namespace BlogMVC.BLL.Models
 
         public string Text { get; set; } = null!;
 
-        public IFormFile Image { get; set; } = null!;
+        public IFormFile? Image { get; set; }
 
         [DisplayName("Category")]
         public string CategoryName { get; set; } = null!;

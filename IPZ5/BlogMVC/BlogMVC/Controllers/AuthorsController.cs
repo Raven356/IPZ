@@ -22,6 +22,14 @@ namespace BlogMVC.Controllers
             return View(author);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Details(AuthorDTO authorDTO)
+        {
+            await _authorsService.UpdateImage(authorDTO);
+
+            return View(authorDTO);
+        }
+
         // GET: Authors/Create
         public IActionResult Create()
         {

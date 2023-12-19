@@ -9,10 +9,27 @@
 <div>
     <h4>Author</h4>
     <hr />
+    <form asp-action="Details" method="post" enctype="multipart/form-data">
+        <img id="previewImage" src=@Model.ImagePath alt="Uploaded Image" class="img-thumbnail" />
+        <div class="form-group">
+            <label asp-for="Image" class="control-label"></label>
+            <input asp-for="Image" id="imageInput" type="file" class="form-control" accept=".gif, .jpg, .jpeg, .png" />
+        </div>
+        <div class="form-group">
+            <input asp-for="Id" type="hidden" value="@Model.Id" />
+        </div>
+        <div class="form-group">
+            <input asp-for="UserId" type="hidden" value="@Model.UserId" />
+        </div>
+        <div class="form-group">
+            <input asp-for="NickName" type="hidden" value="@Model.NickName" />
+        </div>
+        <button type="button" id="clearImageButton" class="btn btn-secondary">Clear Image</button>
+        <div class="form-group d-flex justify-content-center">
+            <input type="submit" value="Update Image" class="btn btn-primary mt-2" />
+        </div>
+    </form>
     <dl class="row">
-        <dt class="col-sm-2">
-            <img id="previewImage" src=@Model.ImagePath alt="Uploaded Image" class="img-thumbnail" />
-        </dt>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NickName)
         </dt>
@@ -21,3 +38,32 @@
         </dd>
     </dl>
 </div>
+
+<script>
+    document.getElementById('clearImageButton').addEventListener('click', function () {
+        // Clear the value of the file input
+        document.getElementById('imageInput').value = '';
+
+        // Optionally, you can clear the preview image as well
+        document.getElementById('previewImage').src = ''; // Set the source to an empty string
+
+        document.getElementById('imageInput').addEventListener('change', function () {
+            displayImage(this);
+        });
+        function displayImage(input) {
+            var preview = document.getElementById('previewImage');
+            var file = input.files[0];
+            var reader = new FileReader();
+            console.log("test");
+            reader.onloadend = function () {
+                preview.src = reader.result;
+            };
+
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = "";
+            }
+        }
+    });
+</script>
