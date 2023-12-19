@@ -22,15 +22,16 @@ namespace BlogMVC.BLL.Services.AuthorsService
         public async Task<AuthorDTO> Create(AuthorDTO request)
         {
             var author = _mapper.Map<Author>(request);
+            var prefix = Guid.NewGuid();
             if (request.Image != null)
             {
-                var imagePath = Path.Combine("/app/data", Guid.NewGuid() + request.Image.FileName);
+                var imagePath = Path.Combine("/app/data", prefix + request.Image.FileName);
 
                 using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
                     await request.Image.CopyToAsync(stream);
                 }
-                author.Image = $"/app/data/{request.Image.FileName}";
+                author.Image = $"/app/data/{prefix + request.Image.FileName}";
             }
             return _mapper.Map<AuthorDTO>(await _repository.Add(author));
         }
@@ -41,20 +42,22 @@ namespace BlogMVC.BLL.Services.AuthorsService
             var oldPath = author.Image;
             author.NickName = request.NickName;
             author.UserId = request.UserId;
+            var prefix = Guid.NewGuid();
             if (!string.IsNullOrEmpty(oldPath)) 
             { 
                 File.Delete(oldPath);
             }
             if (request.Image != null)
             {
-                var imagePath = Path.Combine("/app/data", request.Image.FileName);
+                var imagePath = Path.Combine("/app/data", prefix + request.Image.FileName);
                 using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
                     await request.Image.CopyToAsync(stream);
                 }
-                author.Image = $"/app/data/{request.Image.FileName}";
+                author.Image = $"/app/data/{prefix + request.Image.FileName}";
             }
             await _repository.Update(author);
+            request.ImagePath = author.Image;
         }
 
         public async Task<AuthorDTO> GetById(int? id)
